@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 import filesize from 'filesize';
 
@@ -21,7 +21,7 @@ interface FileProps {
 
 const Importacao: React.FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<FileProps[]>([]);
-  const history = useHistory();
+  const router = useRouter();
   const { addToast } = useToast()
 
   async function handleUpload(): Promise<void> {
@@ -49,7 +49,7 @@ const Importacao: React.FC = () => {
         description: "Transações inclusas com sucesso."
       });
 
-      history.push("/dashboard")
+      router.push("/dashboard")
     } catch (err) {
       console.log(err.response.error);
     }

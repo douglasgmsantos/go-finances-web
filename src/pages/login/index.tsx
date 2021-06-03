@@ -2,6 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import { useRouter } from 'next/router';
 
 import Link from 'next/link';
+import ReactLoading from 'react-loading';
 
 import { FormHandles } from '@unform/core';
 
@@ -97,7 +98,12 @@ const Login: React.FC = () => {
                 </Link>
               </ContainerText>
               <Button type="submit" disabled={loading}>
-                Enviar
+                {loading
+                  ? <ReactLoading
+                    type="spin"
+                    width={25}
+                    height={25} />
+                  : 'Enviar'}
               </Button>
               <ContainerText >
                 <span>Ainda não possui conta? </span>

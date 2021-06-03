@@ -5,6 +5,7 @@ export const Container = styled.div`
   span {
     z-index: 1000;
     width: auto;
+    min-width: 150px;
     background: ${p => p.theme.title === 'light' ? p.theme.colors.orange : p.theme.colors.white};
     padding: 8px;
     border-radius: 4px;

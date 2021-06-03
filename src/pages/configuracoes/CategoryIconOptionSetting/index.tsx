@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from 'react';
-import * as Icons from 'react-icons/all';
+import * as Icons from 'react-icons/fi';
 import { OptionProps, SingleValueProps, OptionTypeBase } from 'react-select';
 
 import { Container } from "./styles";

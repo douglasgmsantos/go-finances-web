@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 import { animated } from 'react-spring';
 
+import theme from '../../../styles/styled'
+
 interface ContainerProps {
   type?: 'info' | 'success' | 'error';
   hasdescription?: string;

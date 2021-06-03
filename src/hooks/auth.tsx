@@ -53,7 +53,6 @@ const AuthProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     async function loadUserFromCookies() {
-      setLoading(true);
       const token = Cookies.get('@GOFINANCEDGMOTA:token');
       const user = Cookies.get('@GOFINANCEDGMOTA:user');
 
@@ -66,8 +65,6 @@ const AuthProvider: React.FC = ({ children }) => {
         delete api.defaults.headers.Authorization
         setData({} as AuthState)
       }
-
-      setLoading(false);
     }
 
     loadUserFromCookies()

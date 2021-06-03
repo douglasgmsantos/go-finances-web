@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import ReactModal from 'react-modal';
-import theme from '../../../styles/themes/light'
+import theme from '../../styles/themes/light'
 
 interface IModalProps {
   children: any;

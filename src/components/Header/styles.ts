@@ -26,13 +26,21 @@ export const Container = styled.div<ContainerProps>`
         text-decoration: none;
         font-size: 16px;
         transition: opacity 0.2s;
+        padding: 8px;
+        border-radius: 8px;
+
+        &.active {
+          background: ${p => p.theme.title === 'light' ? p.theme.colors.orange : p.theme.colors.dark};
+          color: ${p => p.theme.title === 'light' ? p.theme.colors.white : p.theme.colors.orange};
+        }
 
         & + a {
           margin-left: 32px;
         }
 
         &:hover {
-          opacity: 0.6;
+          background: ${p => p.theme.title === 'light' ? p.theme.colors.orange : p.theme.colors.dark};
+          color: ${p => p.theme.title === 'light' ? p.theme.colors.white : p.theme.colors.orange};
         }
       }
     }
