@@ -23,7 +23,7 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ messages }) => {
   return (
     <Container>
       {messagesWithTransitions((styles, item: ToastMessage) => {
-        const key = styles.key || ""
+        const key = styles && styles.key ? styles.key : ""
         return <Toast key={key} style={styles} message={item} />
       })}
     </Container>
