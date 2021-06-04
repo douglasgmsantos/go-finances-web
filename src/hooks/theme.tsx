@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ThemeProvider, DefaultTheme } from 'styled-components'
 
-import Cookies from 'js-cookie';
+import { setCookie, parseCookies } from 'nookies'
 
 import light from '../styles/themes/light';
 import dark from '../styles/themes/dark';
@@ -18,17 +18,27 @@ const ThemePortalProvider: React.FC = ({ children }) => {
   const [theme, setTheme] = useState<DefaultTheme>(light);
 
   useEffect(() => {
-    if (!Boolean(Cookies.get("@GOFINANCEDGMOTA:theme"))) {
-      Cookies.set("@GOFINANCEDGMOTA:theme", theme.title)
+    const { "@GOFINANCEDGMOTA:theme": themeCookie } = parseCookies();
+
+    if (!Boolean(themeCookie)) {
+      setCookie(undefined, '@GOFINANCEDGMOTA:theme', theme.title, {
+        maxAge: 60 * 60 * 24 * 30, // 30dias,
+        path: "/"
+      });
     } else {
-      setTheme(Cookies.get("@GOFINANCEDGMOTA:theme") == "dark" ? dark : light)
+      const { "@GOFINANCEDGMOTA:theme": themeCookie } = parseCookies();
+      setTheme(themeCookie == "dark" ? dark : light)
     }
   }, [])
 
 
   const toggleTheme = () => {
-    setTheme(theme.title === "light" ? dark : light)
-    Cookies.set("@GOFINANCEDGMOTA:theme", theme.title === "light" ? "dark" : "light")
+    setTheme(theme.title === "light" ? dark : light);
+
+    setCookie(undefined, '@GOFINANCEDGMOTA:theme', theme.title === "light" ? "dark" : "light", {
+      maxAge: 60 * 60 * 24 * 30, // 30dias,
+      path: "/"
+    });
   }
 
   return (

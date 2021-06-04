@@ -1,9 +1,10 @@
 import React, { createContext, useCallback, useState, useContext, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 
-import api from '../services/api';
+import { api } from "../services/apiClient";
 
-import Cookies from 'js-cookie';
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
+
 
 interface SignInCredentials {
   email: string;
@@ -34,13 +35,20 @@ interface AuthState {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
+export const signOut = () => {
+  destroyCookie(undefined, '@GOFINANCEDGMOTA:token');
+  destroyCookie(undefined, '@GOFINANCEDGMOTA:user');
+
+  Router.push("/");
+};
+
 const AuthProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const [data, setData] = useState<AuthState>(() => {
-    const token = Cookies.get('@GOFINANCEDGMOTA:token');
-    const user = Cookies.get('@GOFINANCEDGMOTA:user');
+    const { "@GOFINANCEDGMOTA:token": token } = parseCookies();
+    const { "@GOFINANCEDGMOTA:use": user } = parseCookies();
 
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -53,9 +61,8 @@ const AuthProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     async function loadUserFromCookies() {
-      const token = Cookies.get('@GOFINANCEDGMOTA:token');
-      const user = Cookies.get('@GOFINANCEDGMOTA:user');
-
+      const { "@GOFINANCEDGMOTA:token": token } = parseCookies();
+      const { "@GOFINANCEDGMOTA:use": user } = parseCookies();
 
       if (token && user) {
         api.defaults.headers.authorization = `Bearer ${token}`;
@@ -85,8 +92,14 @@ const AuthProvider: React.FC = ({ children }) => {
 
       const { token, user } = result;
 
-      Cookies.set('@GOFINANCEDGMOTA:token', token, { expires: 60 });
-      Cookies.set('@GOFINANCEDGMOTA:user', JSON.stringify(user), { expires: 60 });
+      setCookie(undefined, '@GOFINANCEDGMOTA:token', token, {
+        maxAge: 60 * 60 * 24 * 30, // 30dias,
+        path: "/"
+      });
+      setCookie(undefined, '@GOFINANCEDGMOTA:user', JSON.stringify(user), {
+        maxAge: 60 * 60 * 24 * 30, // 30dias,
+        path: "/"
+      });
 
       api.defaults.headers.authorization = `Bearer ${token}`;
 
@@ -100,16 +113,11 @@ const AuthProvider: React.FC = ({ children }) => {
 
   }, []);
 
-  const signOut = useCallback(() => {
-    Cookies.remove('@GOFINANCEDGMOTA:token');
-    Cookies.remove('@GOFINANCEDGMOTA:user');
-
-    setData({} as AuthState);
-    router.push("/");
-  }, []);
-
   const updateUser = useCallback((user: User) => {
-    Cookies.set('@GOFINANCEDGMOTA:user', JSON.stringify(user));
+    setCookie(undefined, '@GOFINANCEDGMOTA:user', JSON.stringify(user), {
+      maxAge: 60 * 60 * 24 * 30, // 30dias,
+      path: "/"
+    });
 
     setData({
       token: data.token,
@@ -153,4 +161,4 @@ function useAuth(): AuthContextData {
   return context;
 }
 
-export { AuthProvider, useAuth };
+export { AuthContext, AuthProvider, useAuth };

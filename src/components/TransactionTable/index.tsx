@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import { FiPlus } from 'react-icons/fi';
 import { FaTrashAlt } from 'react-icons/fa';
 import * as Icons from 'react-icons/fa';
 
-import { useTransaction } from '../../hooks/useTransaction';
+import { TransactionsContext } from '../../hooks/useTransaction';
 import { useTheme } from '../../hooks/theme';
 
 import Tooltip from '../Tooltip';
@@ -20,7 +20,7 @@ import {
 
 const TransactionTable: React.FC = () => {
   const { theme } = useTheme();
-  const { transactions, deleteTransaction, loadTransactions } = useTransaction();
+  const { transactions, deleteTransaction, loadTransactions } = useContext(TransactionsContext);
 
   useEffect(() => {
     loadTransactions();

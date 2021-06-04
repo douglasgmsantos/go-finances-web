@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, ReactNode, useContext } from "react
 
 import { Omit } from "yargs";
 
-import api from "../services/api";
+import { api } from "../services/apiClient";
 
 import { useToast } from "./toast";
 
@@ -40,7 +40,7 @@ interface ITransactionContext {
 
 const TransactionsContext = createContext<ITransactionContext>({} as ITransactionContext);
 
-export const TransactionProvider = ({ children }: ITransactionProvider) => {
+const TransactionProvider = ({ children }: ITransactionProvider) => {
   const { addToast } = useToast();
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
 
@@ -49,16 +49,22 @@ export const TransactionProvider = ({ children }: ITransactionProvider) => {
   }, []);
 
   const loadTransactions = async () => {
-    api.get('/transactions')
-      .then(response => {
-        setTransactions(response.data.result.transactions.map(transaction => {
-          transaction.value_format = formatValue(Number(transaction.value))
-          transaction.created_at = formatDate(transaction.created_at)
-          transaction.category.background_color_light = transaction.category.background_color_light || "#000"
-          transaction.category.background_color_dark = transaction.category.background_color_dark || "#FFF"
-          return transaction
-        }));
-      })
+    try {
+      const response = await api.get('/transactions');
+
+      if (!response.data.success)
+        return;
+
+      setTransactions(response.data.result.transactions.map(transaction => {
+        transaction.value_format = formatValue(Number(transaction.value))
+        transaction.created_at = formatDate(transaction.created_at)
+        transaction.category.background_color_light = transaction.category.background_color_light || "#000"
+        transaction.category.background_color_dark = transaction.category.background_color_dark || "#FFF"
+        return transaction
+      }));
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const createNewTransaction = async (transactionCreate: ICreateTransaction) => {
@@ -109,8 +115,10 @@ export const TransactionProvider = ({ children }: ITransactionProvider) => {
   )
 }
 
-export const useTransaction = () => {
+const useTransaction = () => {
   const context = useContext(TransactionsContext);
 
   return context;
 }
+
+export { TransactionProvider, TransactionsContext, useTransaction };

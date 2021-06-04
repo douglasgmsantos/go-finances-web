@@ -4,7 +4,7 @@ import * as Icons from 'react-icons/fi';
 import { FiPlus } from 'react-icons/fi';
 import { FaTrashAlt } from 'react-icons/fa';
 
-import api from '../../services/api';
+import { api } from "../../services/apiClient";
 
 import { useTheme } from '../../hooks/theme';
 import { useToast } from '../../hooks/toast';

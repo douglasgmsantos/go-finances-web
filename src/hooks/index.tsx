@@ -12,9 +12,7 @@ const AppProvider: React.FC = ({ children }) => (
     <ToastProvider>
       <UserProvider>
         <AuthProvider>
-          <TransactionProvider>
-            {children}
-          </TransactionProvider>
+          {children}
         </AuthProvider>
       </UserProvider>
     </ToastProvider>

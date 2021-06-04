@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ size = 'large' }: HeaderProps) => {
   const router = useRouter();
 
   const handleSignOut = useCallback(async () => {
-    await signOut
+    await signOut();
     router.push("/")
   }, [])
 

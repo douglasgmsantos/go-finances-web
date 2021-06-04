@@ -28,6 +28,7 @@ import {
   Email,
   Password
 } from './styles'
+import { withSSRGuest } from '../../utils/withSSRGuest';
 
 
 // Interfaces
@@ -92,11 +93,11 @@ const Login: React.FC = () => {
             <FormContainer ref={formRef} onSubmit={handleSubmit} action="">
               <Email name="email" type="text" placeholder="E-mail" icon={MdEmail} />
               <Password name="password" type="password" placeholder="Senha" icon={CgPassword} />
-              <ContainerText textAlign="right">
+              {/* <ContainerText textAlign="right">
                 <Link href="/" >
                   <a style={{ textDecoration: "none" }} > Esqueci minha senha </a>
                 </Link>
-              </ContainerText>
+              </ContainerText> */}
               <Button type="submit" disabled={loading}>
                 {loading
                   ? <ReactLoading

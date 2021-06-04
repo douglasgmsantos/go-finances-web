@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { useTransaction } from '../../hooks/useTransaction';
-import { useTheme } from '../../hooks/theme';
+import { TransactionsContext } from '../../hooks/useTransaction';
 
 import formatValue from '../../utils/formatValue';
 
 import { CardContainer, Card } from './styles';
 
 const Summary: React.FC = () => {
-  const { transactions } = useTransaction();
-  const { theme } = useTheme();
+  const { transactions } = useContext(TransactionsContext);
 
   const summary = transactions.reduce((acc, transaction) => {
     if (transaction.type == "income") {

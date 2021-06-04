@@ -10,7 +10,7 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { CSSProperties } from 'styled-components';
 
-import api from '../../services/api';
+import { api } from "../../services/apiClient";
 
 import Input from '../../components/Input'
 

@@ -1,11 +1,12 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
-import Cookies from 'js-cookie';
+import { setCookie, parseCookies } from 'nookies'
 
 type Response<T> = [T, Dispatch<SetStateAction<T>>]
 
 function usePersistedState<T>(key: string, initialState: T): Response<T> {
   const [state, setState] = useState(() => {
-    const storageValue = Cookies.get(key);
+    const { key: storageValue } = parseCookies();
+
     if (storageValue) {
       return JSON.parse(storageValue);
     } else {
@@ -14,7 +15,10 @@ function usePersistedState<T>(key: string, initialState: T): Response<T> {
   });
 
   useEffect(() => {
-    Cookies.set(key, JSON.stringify(state));
+    setCookie(undefined, key, JSON.stringify(state), {
+      maxAge: 60 * 60 * 24 * 30, // 30dias,
+      path: "/"
+    });
   }, [key, state])
 
   return [state, setState];

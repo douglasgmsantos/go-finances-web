@@ -11,7 +11,7 @@ import Upload from '../../components/Upload';
 
 import { Container, Title, ImportFileContainer, Footer } from './styles';
 
-import api from '../../services/api';
+import { api } from "../../services/apiClient";
 
 interface FileProps {
   file: File;
