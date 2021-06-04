@@ -27,7 +27,7 @@ import {
   Email,
   Password,
   Footer
-} from './styles'
+} from '../../../styles/components/cadastro/usuario/styles'
 
 
 

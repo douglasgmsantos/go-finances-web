@@ -9,7 +9,7 @@ import Header from '../../components/Header';
 import FileList from '../../components/FileList';
 import Upload from '../../components/Upload';
 
-import { Container, Title, ImportFileContainer, Footer } from './styles';
+import { Container, Title, ImportFileContainer, Footer } from '../../styles/components/importacao/styles';
 
 import { api } from "../../services/apiClient";
 

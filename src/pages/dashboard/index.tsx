@@ -8,7 +8,7 @@ import { withSSRAuth } from '../../utils/withSSRAuth';
 
 import {
   Container
-} from './styles';
+} from '../../styles/components/dashboard/styles';
 
 
 

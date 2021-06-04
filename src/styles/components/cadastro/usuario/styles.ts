@@ -1,9 +1,8 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+
 import { Form } from '@unform/web';
 
-import InputLogin from "../../components/InputLogin";
-
-
+import InputLogin from "../../../../components/InputLogin";
 
 export const Container = styled.div`
   height: 100vh;
@@ -13,10 +12,9 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-
-export const LoginContainer = styled.div`
+export const Login = styled.div`
   width: 400px;
-  height: 460px;
+  height: auto;
   background: ${p => p.theme.colors.white};
   border-radius: 5px;
   top: 100px;
@@ -43,24 +41,28 @@ export const Content = styled.div`
   padding: ${p => p.theme.spacing.default};
 `;
 
+export const Title = styled.div`
+  width: 100%;
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-bottom: ${p => p.theme.spacing.default};
+`;
+
+
 export const FormContainer = styled(Form)`
   width: 100%;
 `;
 
-interface IContainerText {
-  textAlign?: string;
-}
-
-export const ContainerText = styled.div<IContainerText>`
-  width: 100%;
-  font-size: small;
-  text-align: ${p => p.textAlign || "center"};
-  a {
-    font-weight: bold;
-    color: ${p => p.theme.colors.purple};
+export const Footer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  button {
+    width: 50%;
   }
 `;
 
+export const Name = styled(InputLogin)``;
 
 export const Email = styled(InputLogin)``;
 

@@ -27,8 +27,7 @@ import {
   ContainerText,
   Email,
   Password
-} from './styles'
-import { withSSRGuest } from '../../utils/withSSRGuest';
+} from '../../styles/components/login/styles'
 
 
 // Interfaces

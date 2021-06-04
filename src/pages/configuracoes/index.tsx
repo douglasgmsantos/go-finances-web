@@ -14,8 +14,8 @@ import Tooltip from '../../components/Tooltip';
 
 import ModalAddNewSetting from '../../components/ModalAddNewSetting';
 
-import { Container, TableContainer, BtnAddNewSetting, Square, SquareContainer, BtnDeleteCategory } from './styles';
-import { Title } from '../importacao/styles';
+import { Container, TableContainer, BtnAddNewSetting, Square, SquareContainer, BtnDeleteCategory } from '../../styles/components/configuracoes/styles';
+import { Title } from '../../styles/components/importacao/styles';
 
 
 interface ICategories {

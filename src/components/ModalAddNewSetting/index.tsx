@@ -24,7 +24,7 @@ import { useToast } from '../../hooks/toast';
 import { getCustomSelectOptionsModal } from '../../utils/customSelectCategoryOption';
 import validationErrorsYup from '../../utils/validate/validateErrorsYup';
 
-import CategoryIconOptionConfig from '../../pages/configuracoes/CategoryIconOptionSetting';
+import CategoryIconOptionConfig from '../../components/CategoryIconOptionSetting';
 
 import { Container, Title, BtnForm, SubmitContainer } from './styles';
 
