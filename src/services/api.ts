@@ -8,8 +8,11 @@ export function setupApiClient(ctx: any = undefined) {
 
   const api = axios.create({
     baseURL: process.env.BASE_URL,
+    withCredentials: false,
     headers: {
-      Authorization: `Bearer ${cookies['@GOFINANCEDGMOTA:token']}`
+      Authorization: `Bearer ${cookies['@GOFINANCEDGMOTA:token']}`,
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     }
   });
 
