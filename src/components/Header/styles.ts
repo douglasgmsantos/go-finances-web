@@ -35,7 +35,7 @@ export const Container = styled.div<ContainerProps>`
         }
 
         & + a {
-          margin-left: 32px;
+          margin-left: 5px;
         }
 
         &:hover {

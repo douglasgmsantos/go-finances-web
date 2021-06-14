@@ -2,6 +2,8 @@ import { GetServerSideProps } from 'next';
 import { AppProps } from 'next/app'
 
 import React from 'react';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
 
 import GlobalStyle from '../styles/global'
 
@@ -13,6 +15,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <AppProvider>
         <GlobalStyle />
         <Component {...pageProps} />
+        <ReactQueryDevtools />
       </AppProvider>
     </>
   )

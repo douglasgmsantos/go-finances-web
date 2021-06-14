@@ -23,9 +23,11 @@ export const BtnAddNewTransaction = styled.button`
 `;
 
 
-export const MessageEmpty = styled.div`
+export const MessageContainer = styled.div`
   text-align: center;
   padding: 100px;
+  display: flex;
+  justify-content: center;
 `;
 
 export const IconContainer = styled.section`
@@ -37,7 +39,47 @@ export const IconContainer = styled.section`
 `;
 
 export const TableContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 5px;
+
+  .container-paginate{
+    display: flex;
+    justify-content:center;
+    margin: 10px;
+
+    .pagination {
+      display: flex;
+
+      li + li {
+        margin-left: 5px;
+      }
+
+      li {
+        cursor: pointer;
+        padding: 8px;
+        list-style: none;
+        border-radius: 6px;
+        background: ${p => p.theme.colors.orange};
+        color: ${p => p.theme.colors.white};
+
+        &.active {
+          background: ${p => p.theme.colors.white};
+          color: ${p => p.theme.colors.orange};
+          cursor: not-allowed;
+        }
+
+        &.disabled { 
+          cursor:not-allowed;
+        }
+
+        &.disabled, &:hover {
+          filter: brightness(0.9);
+        }
+      }
+
+    }
+
+  }
+
 
   table {
     width: 100%;
@@ -49,7 +91,7 @@ export const TableContainer = styled.div`
 
         th {
           font-weight: normal;
-          padding: 20px 32px;
+          padding: 10px 32px;
           text-align: left;
           font-size: 16px;
           line-height: 24px;
