@@ -39,7 +39,7 @@ export const IconContainer = styled.section`
 `;
 
 export const TableContainer = styled.div`
-  margin-top: 5px;
+  margin-top: 15px;
 
   .container-paginate{
     display: flex;
@@ -55,16 +55,21 @@ export const TableContainer = styled.div`
 
       li {
         cursor: pointer;
-        padding: 8px;
         list-style: none;
-        border-radius: 6px;
-        background: ${p => p.theme.colors.orange};
-        color: ${p => p.theme.colors.white};
+
+        a {
+          padding: 8px;
+          border-radius: 6px;
+          background: ${p => p.theme.colors.orange};
+          color: ${p => p.theme.colors.white};
+        }
 
         &.active {
-          background: ${p => p.theme.colors.white};
-          color: ${p => p.theme.colors.orange};
           cursor: not-allowed;
+          a {
+            background: ${p => p.theme.colors.white};
+            color: ${p => p.theme.colors.orange};
+          }
         }
 
         &.disabled { 
@@ -72,7 +77,9 @@ export const TableContainer = styled.div`
         }
 
         &.disabled, &:hover {
-          filter: brightness(0.9);
+          a {
+            filter: brightness(0.9);
+          }
         }
       }
 
@@ -90,11 +97,18 @@ export const TableContainer = styled.div`
       tr {
 
         th {
+          padding: 20px 32px;
+          background: ${p => p.theme.title === 'light' ? p.theme.colors.white : p.theme.colors.orange};
+          font-size: 16px;
+          font-weight: normal;
+          color: ${p => p.theme.colors.dark};
+
           font-weight: normal;
           padding: 10px 32px;
           text-align: left;
           font-size: 16px;
           line-height: 24px;
+          border-radius: 8px;
 
         }
       }

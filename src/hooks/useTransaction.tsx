@@ -1,6 +1,4 @@
-import { createContext, useState, useEffect, ReactNode, useContext } from "react";
-
-import { useQuery, UseQueryOptions, QueryObserverResult } from 'react-query';
+import { createContext, useState, ReactNode, useContext } from "react";
 
 import { Omit } from "yargs";
 
@@ -43,58 +41,71 @@ interface ITransactionProvider {
 }
 
 interface ITransactionContext {
+  isLoading: boolean;
   summary: ISummary;
   totalTransactions: number;
   transactions: ITransaction[];
+  pageTransaction: number;
+  setPageTransaction(page: number): void;
   createNewTransaction(transaction: ICreateTransaction): Promise<void>;
   deleteTransaction(id: string): Promise<void>;
-  loadTransactions(page: number): QueryObserverResult<ITransaction[]>;
+  loadTransactions(): void;
 }
 
 const TransactionsContext = createContext<ITransactionContext>({} as ITransactionContext);
 
 const TransactionProvider = ({ children }: ITransactionProvider) => {
+  const [take, setTake] = useState(5);
+  const [page, setPage] = useState(1);
   const { addToast } = useToast();
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [summary, setSummary] = useState({ income: 0, outcome: 0, total: 0 } as ISummary);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [totalTransactions, setTotalTransactions] = useState(0);
 
-  const loadTransactions = (page: number = 1, take: number = 5) => {
-    return useQuery<ITransaction[]>(['transactions', page], async () => {
-      try {
-        const response = await api.get('/transactions', {
-          params: {
-            page,
-            take
-          }
-        });
+  const loadTransactions = async () => {
+    try {
+      setIsLoading(true);
+      const response = await api.get('/transactions', {
+        params: {
+          page,
+          take
+        }
+      });
 
-        if (!response.data.success)
-          return;
+      if (!response.data.success)
+        return;
 
-        const transactions = response.data.result.transactions.map(transaction => {
-          transaction.value_format = formatValue(Number(transaction.value))
-          transaction.created_at = formatDate(transaction.created_at)
-          transaction.category.background_color_light = transaction.category.background_color_light || "#000"
-          transaction.category.background_color_dark = transaction.category.background_color_dark || "#FFF"
-          return transaction
-        });
+      const transactions = response.data.result.transactions.map(transaction => {
+        transaction.value_format = formatValue(Number(transaction.value))
+        transaction.created_at = formatDate(transaction.created_at)
+        transaction.category.background_color_light = transaction.category.background_color_light || "#000"
+        transaction.category.background_color_dark = transaction.category.background_color_dark || "#FFF"
+        return transaction
+      });
 
-        setTotalTransactions(response.data.result.total);
+      let balance = response.data.result.balance;
+      let total = response.data.result.total;
 
-        let balance = response.data.result.balance;
-        balance.outcomeFormatted = formatValue(balance.outcome);
-        balance.incomeFormatted = formatValue(balance.income);
-        balance.totalFormatted = formatValue(balance.total);
+      balance.outcomeFormatted = formatValue(balance.outcome);
+      balance.incomeFormatted = formatValue(balance.income);
+      balance.totalFormatted = formatValue(balance.total);
 
-        setSummary(balance);
+      const newPage = Math.ceil(total / take);
 
-        return transactions
-      } catch (err) {
-        return []
-      }
-    })
+
+      setPage(newPage < page ? newPage : page);
+      setTransactions(transactions);
+      setTotalTransactions(total);
+      setSummary(balance);
+
+    } catch (err) {
+      setPage(1);
+      return []
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const createNewTransaction = async (transactionCreate: ICreateTransaction) => {
@@ -103,8 +114,7 @@ const TransactionProvider = ({ children }: ITransactionProvider) => {
       createdAt: new Date()
     })
       .then(response => {
-        const { transaction } = response.data;
-        setTransactions([...transactions, transaction]);
+        loadTransactions();
       })
 
   }
@@ -115,6 +125,7 @@ const TransactionProvider = ({ children }: ITransactionProvider) => {
       if (!success)
         throw new Error(message);
 
+      loadTransactions();
       addToast({
         type: 'info',
         title: 'Atenção',
@@ -134,12 +145,15 @@ const TransactionProvider = ({ children }: ITransactionProvider) => {
 
   return (
     <TransactionsContext.Provider value={{
+      pageTransaction: page,
+      setPageTransaction: setPage,
       transactions,
       createNewTransaction,
       deleteTransaction,
       loadTransactions,
       totalTransactions,
-      summary
+      summary,
+      isLoading
     }}>
       {children}
     </TransactionsContext.Provider>

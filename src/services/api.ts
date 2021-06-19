@@ -76,6 +76,8 @@ export function setupApiClient(ctx: any = undefined) {
           })
         })
 
+      } if (String(error ?.response.data.status).toUpperCase() == "SESSION_FINALIZED") {
+        signOut();
       } else {
         //Deslogar usuário
         if (process.browser) {
