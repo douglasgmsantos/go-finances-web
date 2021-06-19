@@ -18,6 +18,7 @@ import { useToast } from "../../hooks/toast"
 import { useAuth } from '../../hooks/auth';
 
 import validationErrorsYup from '../../utils/validate/validateErrorsYup';
+import { withSSRGuest } from '../../utils/withSSRGuest';
 
 import {
   Container,
@@ -28,6 +29,7 @@ import {
   Email,
   Password
 } from '../../styles/components/login/styles'
+
 
 
 // Interfaces
@@ -119,5 +121,12 @@ const Login: React.FC = () => {
     </>
   );
 };
+
+export const getServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {
+    }
+  }
+})
 
 export default Login;

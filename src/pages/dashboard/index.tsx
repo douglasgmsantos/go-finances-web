@@ -5,6 +5,7 @@ import Summary from '../../components/Summary';
 import TransactionTable from '../../components/TransactionTable';
 import { TransactionProvider } from '../../hooks/useTransaction';
 import { withSSRAuth } from '../../utils/withSSRAuth';
+import { setupApiClient } from '../../services/api';
 
 import {
   Container

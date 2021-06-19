@@ -23,9 +23,7 @@ interface AuthContextData {
   loading: boolean;
   isAuthenticated: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
-  updateUser(user: User): void;
   signOut(): void;
-  checkSession(): void;
 }
 
 interface AuthState {
@@ -38,43 +36,34 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const signOut = () => {
   destroyCookie(undefined, '@GOFINANCEDGMOTA:token');
   destroyCookie(undefined, '@GOFINANCEDGMOTA:user');
+  destroyCookie(undefined, '@GOFINANCEDGMOTA:refresh_token');
+
 
   Router.push("/");
 };
 
 const AuthProvider: React.FC = ({ children }) => {
+  const [user, setUser] = useState<User>();
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const [data, setData] = useState<AuthState>(() => {
-    const { "@GOFINANCEDGMOTA:token": token } = parseCookies();
-    const { "@GOFINANCEDGMOTA:use": user } = parseCookies();
-
-    if (token && user) {
-      api.defaults.headers.authorization = `Bearer ${token}`;
-
-      return { token, user: JSON.parse(user) };
-    }
-
-    return {} as AuthState;
-  });
-
   useEffect(() => {
-    async function loadUserFromCookies() {
-      const { "@GOFINANCEDGMOTA:token": token } = parseCookies();
-      const { "@GOFINANCEDGMOTA:use": user } = parseCookies();
+    // async function loadUserFromCookies() {
+    //   const { "@GOFINANCEDGMOTA:token": token } = parseCookies();
+    //   const { "@GOFINANCEDGMOTA:use": user } = parseCookies();
 
-      if (token && user) {
-        api.defaults.headers.authorization = `Bearer ${token}`;
+    //   if (token && user) {
+    //     api.defaults.headers.authorization = `Bearer ${token}`;
 
-        setData({ token, user: JSON.parse(user) });
-      } else {
-        delete api.defaults.headers.Authorization
-        setData({} as AuthState)
-      }
-    }
+    //     setData({ token, user: JSON.parse(user) });
+    //   } else {
+    //     delete api.defaults.headers.Authorization
+    //     setData({} as AuthState)
+    //   }
+    // }
 
-    loadUserFromCookies()
+    // loadUserFromCookies()
   }, [])
 
   const signIn = useCallback(async ({ email, password }) => {
@@ -90,7 +79,7 @@ const AuthProvider: React.FC = ({ children }) => {
         throw new Error(message);
 
 
-      const { token, user } = result;
+      const { token, user, refresh_token } = result;
 
       setCookie(undefined, '@GOFINANCEDGMOTA:token', token, {
         maxAge: 60 * 60 * 24 * 30, // 30dias,
@@ -100,50 +89,32 @@ const AuthProvider: React.FC = ({ children }) => {
         maxAge: 60 * 60 * 24 * 30, // 30dias,
         path: "/"
       });
+      setCookie(undefined, '@GOFINANCEDGMOTA:refresh_token', refresh_token, {
+        maxAge: 60 * 60 * 24 * 30, // 30dias,
+        path: "/"
+      });
 
-      api.defaults.headers.authorization = `Bearer ${token}`;
+      api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
-      setData({ token, user });
-      setLoading(false);
+      setUser(user);
       router.push("/dashboard");
     } catch (error) {
-      setLoading(false);
       throw error
+    } finally {
+      setLoading(false);
     }
 
   }, []);
 
-  const updateUser = useCallback((user: User) => {
-    setCookie(undefined, '@GOFINANCEDGMOTA:user', JSON.stringify(user), {
-      maxAge: 60 * 60 * 24 * 30, // 30dias,
-      path: "/"
-    });
-
-    setData({
-      token: data.token,
-      user,
-    });
-  }, [setData, data.token]
-  );
-
-  const checkSession = useCallback(async () => {
-    const { data: { success, message, result } } = await api.get('/sessions');
-
-    if (!success)
-      signOut()
-
-  }, [signOut])
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: Boolean(data.user),
-        user: data.user,
+        isAuthenticated: Boolean(user),
+        user,
         signIn,
         signOut,
-        updateUser,
-        loading,
-        checkSession
+        loading
       }}
     >
       {children}

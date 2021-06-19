@@ -9,7 +9,6 @@ interface WithSSRAuthOptions {
   roles: string[];
 }
 
-
 export function withSSRAuth<P>(fn: GetServerSideProps<P>, options?: WithSSRAuthOptions): GetServerSideProps {
   return async (ctx: GetServerSidePropsContext) => {
     const cookies = parseCookies(ctx);
@@ -19,18 +18,14 @@ export function withSSRAuth<P>(fn: GetServerSideProps<P>, options?: WithSSRAuthO
       if (!token)
         throw new AuthTokenError();
 
-      if (options) {
-        const user = decode(token);
-
-        if (!user) {
-          return {
-            redirect: {
-              destination: "/dashboard",
-              permanent: false
-            }
+      const user = decode(token);
+      if (!user) {
+        return {
+          redirect: {
+            destination: "/dashboard",
+            permanent: false
           }
         }
-
       }
 
       return await fn(ctx);
