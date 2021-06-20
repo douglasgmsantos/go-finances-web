@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import * as Icons from 'react-icons/fi';
+import React, { useState, useCallback, useContext } from 'react';
+import * as Icons from 'react-icons/fa';
 
 import { FiPlus } from 'react-icons/fi';
 import { FaTrashAlt } from 'react-icons/fa';
@@ -11,46 +11,20 @@ import { useToast } from '../../hooks/toast';
 
 import Header from '../../components/Header';
 import Tooltip from '../../components/Tooltip';
-
 import ModalAddNewSetting from '../../components/ModalAddNewSetting';
 
-import { Container, TableContainer, BtnAddNewSetting, Square, SquareContainer, BtnDeleteCategory } from '../../styles/components/configuracoes/styles';
-import { Title } from '../../styles/components/importacao/styles';
+import { CategoriesContext } from '../../hooks/useCategory';
 
-
-interface ICategories {
-  id: string;
-  title: string;
-  icon: string;
-  background_color_dark: string;
-  background_color_light: string;
-}
+import { Title, Container, TableContainer, BtnAddNewSetting, Square, SquareContainer, BtnDeleteCategory } from '../../styles/components/configuracoes/styles';
 
 const Configuracoes: React.FC = () => {
   const { theme } = useTheme();
   const { addToast } = useToast();
 
+  const { categories, loadCategories } = useContext(CategoriesContext)
+
   const [openModal, setOpenModal] = useState(false);
   const toggleModal = useCallback(() => setOpenModal(openModal ? false : true), [openModal]);
-  const [categories, setCategories] = useState<ICategories[]>([]);
-
-  const loadCategories = useCallback(async () => {
-    try {
-      const { data: { success, message, result } } = await api.get('/categories');
-      if (!success)
-        throw new Error(message);
-
-      setCategories(result)
-    } catch (err) {
-      if (err instanceof Error)
-        addToast({
-          type: 'error',
-          title: 'Atenção',
-          description: err.message
-        });
-    }
-
-  }, [addToast]);
 
   const onSubmitted = useCallback(() => {
     addToast({
@@ -61,7 +35,6 @@ const Configuracoes: React.FC = () => {
 
     toggleModal();
     loadCategories();
-
   }, [addToast, loadCategories, toggleModal])
 
   const handleDeleteCategory = useCallback(async (id: string) => {
@@ -88,11 +61,6 @@ const Configuracoes: React.FC = () => {
 
   }, [addToast, loadCategories]);
 
-  useEffect(() => {
-    loadCategories();
-  }, [loadCategories]);
-
-
   return (
     <>
       <Header size="small" />
@@ -117,7 +85,7 @@ const Configuracoes: React.FC = () => {
             </thead>
 
             <tbody>
-              {categories.map(category => {
+              {categories && categories.map(category => {
                 const [, iconName] = category.icon.split('/');
                 const Icon = (Icons as any)[iconName];
 

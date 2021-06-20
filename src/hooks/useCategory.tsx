@@ -3,7 +3,7 @@ import { createContext, useState, ReactNode, useContext, useEffect } from "react
 import { api } from "../services/apiClient";
 
 interface ICategory {
-  id: string;
+  id?: string;
   title?: string;
   background_color_light?: string;
   background_color_dark?: string;
@@ -16,12 +16,13 @@ interface ICategoryProvider {
 
 interface ICategoryContext {
   categories: ICategory[];
+  loadCategories(): void;
 }
 
 const CategoriesContext = createContext<ICategoryContext>({} as ICategoryContext);
 
 const CategoryProvider = ({ children }: ICategoryProvider) => {
-  const [categories, setCategories] = useState<ICategory[]>([] as ICategory[])
+  const [categories, setCategories] = useState([])
 
   useEffect(() => {
     loadCategories();
@@ -44,7 +45,8 @@ const CategoryProvider = ({ children }: ICategoryProvider) => {
 
   return (
     <CategoriesContext.Provider value={{
-      categories
+      categories,
+      loadCategories
     }}>
       {children}
     </CategoriesContext.Provider>

@@ -21,15 +21,15 @@ const TransactionFilter: React.FC = () => {
 
   return (
     <Container>
-      <select defaultValue="" onChange={(e) => handleFilterType(e.target.value)}>
+      <select defaultValue="all" onChange={(e) => handleFilterType(e.target.value)}>
         <option selected={filterTypeTransaction === "all"} value="all">Todos</option>
         <option selected={filterTypeTransaction === "income"} value="income">Entrada</option>
         <option selected={filterTypeTransaction === "outcome"} value="outcome">Saída</option>
       </select>
-      <select defaultValue="" onChange={(e) => handleFilterCategory(e.target.value)}>
-        <option selected={filterCategoryTransaction === ""} value="">Todas</option>
+      <select defaultValue={filterCategoryTransaction} onChange={(e) => handleFilterCategory(e.target.value)}>
+        <option value="">Todas</option>
         {categories && categories.map(category => (
-          <option key={category.id} selected={filterCategoryTransaction === category.id} value={category.id}>{category.title}</option>
+          <option key={category.id} value={category.id}>{category.title}</option>
         ))}
       </select>
       <input type="date" value={dtInitTransaction} onChange={(e) => handleDtInit(e.target.value)} placeholder="Data inicial" />
