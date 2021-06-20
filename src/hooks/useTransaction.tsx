@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useContext } from "react";
+import { createContext, useState, ReactNode, useContext, useEffect } from "react";
 
 import { Omit } from "yargs";
 
@@ -8,6 +8,8 @@ import { useToast } from "./toast";
 
 import formatValue from "../utils/formatValue";
 import formatDate from "../utils/formatDate";
+import { firstDay } from "../utils/firstDay";
+import { lastedDay } from "../utils/lastDay";
 
 interface ITransaction {
   id?: string;
@@ -46,6 +48,17 @@ interface ITransactionContext {
   totalTransactions: number;
   transactions: ITransaction[];
   pageTransaction: number;
+
+  filterCategoryTransaction: string;
+  filterTypeTransaction: string;
+  dtInitTransaction: string;
+  dtEndTransaction: string;
+  handleFilterCategory(text: string): void;
+  handleFilterType(text: string): void;
+  handleDtInit(text: string): void;
+  handleDtEnd(text: string): void;
+  emptyFilter(): void;
+
   setPageTransaction(page: number): void;
   createNewTransaction(transaction: ICreateTransaction): Promise<void>;
   deleteTransaction(id: string): Promise<void>;
@@ -55,6 +68,12 @@ interface ITransactionContext {
 const TransactionsContext = createContext<ITransactionContext>({} as ITransactionContext);
 
 const TransactionProvider = ({ children }: ITransactionProvider) => {
+  //filtroe
+  const [filterCategory, setFilterCategory] = useState("");
+  const [filterType, setFilterType] = useState("all");
+  const [dtInit, setDtInit] = useState(firstDay());
+  const [dtEnd, setDtEnd] = useState(lastedDay());
+
   const [take, setTake] = useState(5);
   const [page, setPage] = useState(1);
   const { addToast } = useToast();
@@ -64,13 +83,26 @@ const TransactionProvider = ({ children }: ITransactionProvider) => {
 
   const [totalTransactions, setTotalTransactions] = useState(0);
 
+  useEffect(() => {
+    loadTransactions();
+  }, [
+      filterCategory,
+      filterType,
+      dtInit,
+      dtEnd
+    ])
+
   const loadTransactions = async () => {
     try {
       setIsLoading(true);
       const response = await api.get('/transactions', {
         params: {
           page,
-          take
+          take,
+          category_id: filterCategory,
+          type: filterType,
+          dt_init: dtInit.replace(/[^0-9]/g, ''),
+          dt_end: dtEnd.replace(/[^0-9]/g, '')
         }
       });
 
@@ -102,7 +134,7 @@ const TransactionProvider = ({ children }: ITransactionProvider) => {
 
     } catch (err) {
       setPage(1);
-      return []
+      setTransactions([]);
     } finally {
       setIsLoading(false);
     }
@@ -143,6 +175,14 @@ const TransactionProvider = ({ children }: ITransactionProvider) => {
 
   };
 
+
+  const emptyFilter = () => {
+    setFilterCategory("")
+    setFilterType("all")
+    setDtInit("")
+    setDtEnd("")
+  }
+
   return (
     <TransactionsContext.Provider value={{
       pageTransaction: page,
@@ -153,7 +193,16 @@ const TransactionProvider = ({ children }: ITransactionProvider) => {
       loadTransactions,
       totalTransactions,
       summary,
-      isLoading
+      isLoading,
+      filterCategoryTransaction: filterCategory,
+      filterTypeTransaction: filterType,
+      dtInitTransaction: dtInit,
+      dtEndTransaction: dtEnd,
+      handleFilterCategory: setFilterCategory,
+      handleFilterType: setFilterType,
+      handleDtInit: setDtInit,
+      handleDtEnd: setDtEnd,
+      emptyFilter
     }}>
       {children}
     </TransactionsContext.Provider>

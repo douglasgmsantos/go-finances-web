@@ -16,21 +16,21 @@ const Summary: React.FC = () => {
             <p>Entradas</p>
             <img src="/income.svg" alt="Income" />
           </header>
-          <h1 data-testid="balance-income">{summary.incomeFormatted}</h1>
+          <h1>{summary.incomeFormatted}</h1>
         </Card>
         <Card>
           <header>
             <p>Saídas</p>
             <img src="/outcome.svg" alt="Outcome" />
           </header>
-          <h1 data-testid="balance-outcome">{summary.outcomeFormatted}</h1>
+          <h1>{summary.outcomeFormatted}</h1>
         </Card>
         <Card total>
           <header>
             <p>Total</p>
             <img src="/total.svg" alt="Total" />
           </header>
-          <h1 data-testid="balance-total">{summary.totalFormatted}</h1>
+          <h1>{summary.totalFormatted}</h1>
         </Card>
       </CardContainer>
     </>

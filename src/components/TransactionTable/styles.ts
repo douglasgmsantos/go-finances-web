@@ -39,7 +39,7 @@ export const IconContainer = styled.section`
 `;
 
 export const TableContainer = styled.div`
-  margin-top: 15px;
+  margin-top: 10px;
 
   .container-paginate{
     display: flex;
@@ -95,10 +95,9 @@ export const TableContainer = styled.div`
     thead{
 
       tr {
-
         th {
-          padding: 20px 32px;
           background: ${p => p.theme.title === 'light' ? p.theme.colors.white : p.theme.colors.orange};
+          padding: 20px 32px;
           font-size: 16px;
           font-weight: normal;
           color: ${p => p.theme.colors.dark};
@@ -108,7 +107,14 @@ export const TableContainer = styled.div`
           text-align: left;
           font-size: 16px;
           line-height: 24px;
-          border-radius: 8px;
+
+           &:first-child {
+            border-radius: 8px 0 0 8px;
+          }
+
+          &:last-child {
+            border-radius: 0 8px 8px 0;
+          }
 
         }
       }
@@ -120,7 +126,7 @@ export const TableContainer = styled.div`
       tr {
 
         td {
-          padding: 20px 32px;
+          padding: 15px 32px;
           background: ${p => p.theme.title === 'light' ? p.theme.colors.white : p.theme.colors.orange};
           font-size: 16px;
           font-weight: normal;

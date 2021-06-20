@@ -12,6 +12,7 @@ import { TransactionsContext } from '../../hooks/useTransaction';
 
 import Tooltip from '../Tooltip';
 import { Paginate } from '../Paginate';
+import TransactionFilter from '../TransactionFilter';
 
 
 import {
@@ -21,6 +22,7 @@ import {
   BtnDeleteTransaction,
   IconContainer
 } from './styles';
+
 
 
 const TransactionTable: React.FC = () => {
@@ -45,6 +47,7 @@ const TransactionTable: React.FC = () => {
 
   return (
     <>
+      <TransactionFilter />
       {!Boolean(totalTransactions) && <MessageContainer>Não há dados cadastros</MessageContainer>}
       {Boolean(totalTransactions) && (
         isLoading ? (
