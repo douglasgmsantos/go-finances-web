@@ -7,7 +7,6 @@ import { Container } from "../../styles/components/configuracoes/CategoryIconOpt
 
 const CategoryIconOptionConfig: React.FC<OptionProps<OptionTypeBase, boolean> | SingleValueProps<OptionTypeBase>
   > = ({ innerProps, data }) => {
-
     const [, iconName] = data ? data.id.split('/') : ["", "FaMoneyBillAlt"];
     const Icon = (Icons as any)[iconName];
 

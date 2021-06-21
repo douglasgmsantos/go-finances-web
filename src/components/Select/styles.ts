@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { tint } from 'polished';
+import Tooltip from '../Tooltip';
 
 interface SelectContainerProps {
   hasError: boolean;

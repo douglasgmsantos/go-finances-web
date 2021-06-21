@@ -63,7 +63,7 @@ const Select: React.FC<ISelect> = ({
 
   return (
     <Container hasError={!!error}>
-      { async ? (
+      {async ? (
         <AsyncReactSelect
           loadOptions={loadOptions!}
           classNamePrefix="react-select"
@@ -72,14 +72,16 @@ const Select: React.FC<ISelect> = ({
           {...rest}
         />
       ) : (
-        <ReactSelect
-          defaultValue={defaultValue}
-          classNamePrefix="react-select"
-          placeholder="Selecione uma opção"
-          ref={selectRef}
-          {...rest}
-        />
-      )}
+          <ReactSelect
+            isClearable
+            defaultValue={defaultValue}
+            classNamePrefix="react-select"
+            placeholder="Selecione uma opção"
+            ref={selectRef}
+            {...rest}
+          />
+        )}
+
     </Container>
   );
 };

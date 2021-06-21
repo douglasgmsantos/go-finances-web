@@ -3,7 +3,6 @@ import ReactLoading from 'react-loading';
 
 import * as Yup from 'yup';
 
-import * as IconsFi from 'react-icons/fi';
 import * as IconsFa from 'react-icons/fa';
 
 import { Form } from '@unform/web';
@@ -55,7 +54,6 @@ const ModalAddNewSetting: React.FC<IModalProps> = ({
   const formRef = useRef<FormHandles>(null);
 
   const Icons = {
-    ...(IconsFi as any),
     ...(IconsFa as any),
   };
 

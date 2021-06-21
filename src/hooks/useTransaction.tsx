@@ -17,6 +17,7 @@ interface ITransaction {
   type?: 'income' | 'outcome';
   value?: string;
   value_format?: string;
+  category_id?: string;
   category?: {
     title?: string;
     background_color_light?: string;
@@ -36,7 +37,7 @@ interface ISummary {
 }
 
 
-type ICreateTransaction = Omit<ITransaction, 'id' | 'createdAt'>
+export type ICreateTransaction = Omit<ITransaction, 'id' | 'createdAt' | 'category'>
 
 interface ITransactionProvider {
   children: ReactNode
@@ -146,9 +147,23 @@ const TransactionProvider = ({ children }: ITransactionProvider) => {
       createdAt: new Date()
     })
       .then(response => {
+        if (!response.data.success) {
+          addToast({
+            type: 'error',
+            title: 'Atenção',
+            description: response.data.message
+          });
+          return;
+        }
+
+        addToast({
+          type: 'info',
+          title: 'Parabéns',
+          description: "Transação cadastrada com sucesso."
+        });
+
         loadTransactions();
       })
-
   }
 
   const deleteTransaction = async (id: string) => {

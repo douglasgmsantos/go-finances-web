@@ -22,6 +22,11 @@ export const BtnAddNewTransaction = styled.button`
   color: #FFF;
 `;
 
+export const BtnAddNewTransactionLine = styled(BtnAddNewTransaction)`
+  width: auto;
+  padding: 1rem;
+`
+
 
 export const MessageContainer = styled.div`
   text-align: center;

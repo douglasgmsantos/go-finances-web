@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useCallback } from 'react';
 
 import ReactLoading from 'react-loading';
 
@@ -12,7 +12,9 @@ import { TransactionsContext } from '../../hooks/useTransaction';
 
 import Tooltip from '../Tooltip';
 import { Paginate } from '../Paginate';
+
 import TransactionFilter from '../TransactionFilter';
+import ModalAddNewTransaction from '../ModalAddNewTransaction';
 
 
 import {
@@ -20,12 +22,17 @@ import {
   MessageContainer,
   BtnAddNewTransaction,
   BtnDeleteTransaction,
-  IconContainer
+  IconContainer,
+  BtnAddNewTransactionLine
 } from './styles';
 
 
 
+
 const TransactionTable: React.FC = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const toggleModal = useCallback(() => setOpenModal(openModal ? false : true), [openModal]);
+
   const { theme } = useTheme();
   const {
     pageTransaction,
@@ -48,7 +55,16 @@ const TransactionTable: React.FC = () => {
   return (
     <>
       <TransactionFilter />
-      {!Boolean(totalTransactions) && <MessageContainer>Não há dados cadastros</MessageContainer>}
+      {!Boolean(totalTransactions) && (
+        <MessageContainer>
+          <BtnAddNewTransactionLine onClick={() => toggleModal()}>
+            <Tooltip title={"Nova transação"}>
+              Adicione um transação para começar.
+            </Tooltip>
+          </BtnAddNewTransactionLine>
+
+        </MessageContainer>
+      )}
       {Boolean(totalTransactions) && (
         isLoading ? (
           <MessageContainer>
@@ -70,7 +86,7 @@ const TransactionTable: React.FC = () => {
                     <th>Categoria</th>
                     <th>Data</th>
                     <th>
-                      <BtnAddNewTransaction onClick={() => { }}>
+                      <BtnAddNewTransaction onClick={() => toggleModal()}>
                         <Tooltip title={"Nova transação"}>
                           <FiPlus />
                         </Tooltip>
@@ -112,6 +128,10 @@ const TransactionTable: React.FC = () => {
               </div>
             </TableContainer>))
       }
+      <ModalAddNewTransaction
+        isOpen={openModal}
+        setIsOpen={toggleModal}
+      />
     </>
   );
 }
