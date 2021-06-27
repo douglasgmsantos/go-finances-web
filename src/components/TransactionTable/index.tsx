@@ -16,7 +16,6 @@ import { Paginate } from '../Paginate';
 import TransactionFilter from '../TransactionFilter';
 import ModalAddNewTransaction from '../ModalAddNewTransaction';
 
-
 import {
   TableContainer,
   MessageContainer,
@@ -25,8 +24,6 @@ import {
   IconContainer,
   BtnAddNewTransactionLine
 } from './styles';
-
-
 
 
 const TransactionTable: React.FC = () => {
@@ -107,7 +104,7 @@ const TransactionTable: React.FC = () => {
                             <Icon size={25} color={theme.title === 'light' ? transaction.category.background_color_light : transaction.category.background_color_dark} /> {transaction.category.title}
                           </IconContainer>
                         </td>
-                        <td>{transaction.created_at}</td>
+                        <td>{transaction.dt_reference_format}</td>
                         <td>
                           <BtnDeleteTransaction onClick={() => handleDeleteTransaction(transaction.id)}>
                             <FaTrashAlt size={25} />

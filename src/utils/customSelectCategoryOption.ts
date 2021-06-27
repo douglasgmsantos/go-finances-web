@@ -6,30 +6,21 @@ export default function getCustomSelectOptions(theme: Theme): any {
   return {
     input: (provided: CSSProperties) => ({
       ...provided,
-      color: theme.title === 'light'
-        ? tint(0.8, theme.colors.dark)
-        : shade(0.25, theme.colors.orange),
+      color: tint(0.8, theme.colors.dark),
     }),
     placeholder: (provided: CSSProperties) => ({
       ...provided,
-      color: theme.title === 'light'
-        ? theme.colors.grey
-        : theme.colors.orange,
+      color: theme.colors.grey
     }),
     control: (provided: CSSProperties) => {
       return {
         ...provided,
         height: 60,
         borderRadius: 10,
-        backgroundColor:
-          theme.title === 'light'
-            ? tint(0.8, theme.colors.white)
-            : shade(0.25, theme.colors.dark),
+        backgroundColor: tint(0.8, theme.colors.white),
         border: 'none',
         boxShadow: 'none',
-        borderColor: theme.title === 'light'
-          ? theme.colors.white
-          : theme.colors.orange
+        borderColor: theme.colors.white,
       };
     },
     valueContainer: (provided: CSSProperties) => ({
@@ -42,10 +33,7 @@ export default function getCustomSelectOptions(theme: Theme): any {
     }),
     menu: (provided: CSSProperties) => ({
       ...provided,
-      backgroundColor:
-        theme.title === 'light'
-          ? tint(0.95, theme.colors.dark)
-          : shade(0.25, theme.colors.primary),
+      backgroundColor:tint(0.95, theme.colors.dark),
     }),
   };
 }
@@ -55,10 +43,7 @@ export function getCustomSelectOptionsModal(theme: Theme): any {
     ...getCustomSelectOptions(theme),
     menu: (provided: CSSProperties) => ({
       ...provided,
-      backgroundColor:
-        theme.title === 'light'
-          ? theme.colors.white
-          : theme.colors.dark,
+      backgroundColor: theme.colors.white,
       padding: '5px 0',
     }),
     control: (provided: CSSProperties) => {
@@ -66,14 +51,12 @@ export function getCustomSelectOptionsModal(theme: Theme): any {
         ...provided,
         height: 60,
         borderRadius: 10,
-        backgroundColor:
-          theme.title === 'light'
-            ? tint(0.8, theme.colors.white)
-            : shade(0.25, theme.colors.dark),
+        backgroundColor:tint(0.8, theme.colors.white),
         boxShadow: 'none',
-        border: `2px solid ${theme.title === 'light'
-          ? theme.colors.grey
-          : theme.colors.orange}`
+        border: `2px solid ${theme.colors.purple_light}`,
+        "&:hover": {
+          borderColor: `${theme.colors.purple_light}`
+        }
       };
     },
   };

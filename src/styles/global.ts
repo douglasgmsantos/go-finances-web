@@ -12,7 +12,8 @@ export default createGlobalStyle`
     height: 100%;
 }
   body {
-    font-family: "Open Sans", Helvetica, sans-serif, arial;;
+    font-family: "Roboto", Helvetica, sans-serif, arial;
+    font-weight: 400;
     background: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.dark};
     text-rendering: optimizeLegibility !important;

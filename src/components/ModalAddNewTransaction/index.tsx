@@ -6,14 +6,18 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { CSSProperties } from 'styled-components';
 
+import { BsCalendar, BsFileText } from 'react-icons/bs';
+import { FiDollarSign } from 'react-icons/fi';
+
 import Input from '../../components/Input'
 
 import ReactCreatableSelect from '../ReactCreatableSelect';
 import Select from '../Select';
 import Modal from '../Modal';
+import Button from '../Button';
+
 import CategoryUserOption from '../CategoryUserOption';
 import OptionDefault from '../OptionDefault';
-import LoadingScreen from '../LoadingScreen';
 
 import { useTheme } from '../../hooks/theme';
 import { useToast } from '../../hooks/toast';
@@ -23,8 +27,9 @@ import { useCategory } from '../../hooks/useCategory';
 import { getCustomSelectOptionsModal } from '../../utils/customSelectCategoryOption';
 import validationErrorsYup from '../../utils/validate/validateErrorsYup';
 
-import { Container, Title, BtnForm, SubmitContainer } from './styles';
+import { Container, Title, SubmitContainer } from './styles';
 import { OptionTypeBase, ActionMeta } from 'react-select';
+
 
 
 interface IModalProps {
@@ -54,13 +59,17 @@ const ModalAddNewTransaction: React.FC<IModalProps> = ({
         value: Yup.string().required('Valor é obrigatório'),
         category: Yup.string().required('Selecione uma categoria'),
         type: Yup.string().required('Selecione um tipo'),
+        dt_reference: Yup.string().required('Selecione a data de referência'),
       });
 
       await schema.validate(formData, {
         abortEarly: false,
       });
 
-      await createNewTransaction(formData);
+      await createNewTransaction({
+        ...formData,
+        dt_reference: Number(String(formData.dt_reference).replaceAll("-",""))
+      });
       setIsOpen();
 
     } catch (err) {
@@ -86,8 +95,9 @@ const ModalAddNewTransaction: React.FC<IModalProps> = ({
       <Container>
         <Title>Nova Transação</Title>
         <Form ref={formRef} onSubmit={handleSubmit} action="">
-          <Input name="title" type="text" placeholder="Título" />
-          <Input name="value" type="number" placeholder="Valor" min="0.00" step="0.01" />
+          <Input name="title" type="text" placeholder="Título" icon={BsFileText} />
+          <Input name="value" type="number" placeholder="Valor" min="0.00" step="0.01" icon={FiDollarSign}/>
+          <Input name="dt_reference" type="date" placeholder="Data de referênca" icon={BsCalendar} />
           <ReactCreatableSelect
             styles={{
               ...getCustomSelectOptionsModal(theme),
@@ -105,7 +115,7 @@ const ModalAddNewTransaction: React.FC<IModalProps> = ({
             defaultOptions
             name="category"
             keyField="title"
-            placeholder="Categorias"
+            placeholder="Selecione uma categorias"
             options={categories}
             components={{
               Option: CategoryUserOption,
@@ -140,7 +150,7 @@ const ModalAddNewTransaction: React.FC<IModalProps> = ({
             defaultOptions
             name="type"
             keyField="type"
-            placeholder="Tipo"
+            placeholder="Selecione um tipo"
             options={[
               { type: "income", label: "Entrada", icon: "fa/FaRegArrowAltCircleUp" },
               { type: "outcome", label: "Saida", icon: "fa/FaRegArrowAltCircleDown" }
@@ -151,10 +161,8 @@ const ModalAddNewTransaction: React.FC<IModalProps> = ({
             }}
           />
           <SubmitContainer>
-            <BtnForm type="submit">
-              {isLoading ? LoadingScreen : 'Salvar'}
-            </BtnForm>
-            <BtnForm onClick={() => setIsOpen()}>Cancelar</BtnForm>
+            <Button type="submit" loading={isLoading}> Salvar</Button>
+            <Button type="button" className="btn-secondary" onClick={() => setIsOpen()} > Cancelar </Button>
           </SubmitContainer>
         </Form>
 

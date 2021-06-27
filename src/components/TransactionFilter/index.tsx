@@ -21,12 +21,12 @@ const TransactionFilter: React.FC = () => {
 
   return (
     <Container>
-      <select defaultValue="all" onChange={(e) => handleFilterType(e.target.value)}>
+      <select value={filterTypeTransaction} onChange={(e) => handleFilterType(e.target.value)}>
         <option selected={filterTypeTransaction === "all"} value="all">Todos</option>
         <option selected={filterTypeTransaction === "income"} value="income">Entrada</option>
         <option selected={filterTypeTransaction === "outcome"} value="outcome">Saída</option>
       </select>
-      <select defaultValue={filterCategoryTransaction} onChange={(e) => handleFilterCategory(e.target.value)}>
+      <select value={filterCategoryTransaction} onChange={(e) => handleFilterCategory(e.target.value)}>
         <option value="">Todas</option>
         {categories && categories.map(category => (
           <option key={category.id} value={category.id}>{category.title}</option>

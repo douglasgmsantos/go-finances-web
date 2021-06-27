@@ -9,9 +9,10 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
-  background: ${p => p.theme.title === 'light' ? p.theme.colors.white : p.theme.colors.dark};
+  background: ${p => p.theme.colors.white};
   border-radius: 10px;
-  border: 2px solid ${p => p.theme.title === 'light' ? p.theme.colors.grey : p.theme.colors.orange};
+  border: 2px solid ${p => p.theme.colors.purple_light};
+  color:${p => p.theme.colors.purple};
   padding: 16px;
   width: 100%;
   display: flex;
@@ -26,24 +27,30 @@ export const Container = styled.div<ContainerProps>`
   ${props =>
     props.isFocused &&
     css`
-      color: ${p => p.theme.title === 'light' ? p.theme.colors.dark : p.theme.colors.orange};
-      border-color: ${p => p.theme.title === 'light' ? p.theme.colors.dark : p.theme.colors.orange};
+      color: ${p => p.theme.colors.orange};
+      border-color: ${p => p.theme.colors.orange};
     `}
 
   ${props =>
     props.isFilled &&
     css`
-      color: #ff9000;
+      color: ${p => p.theme.colors.orange};
     `}
 
   input {
-    color: ${p => p.theme.title === 'light' ? p.theme.colors.grey : p.theme.colors.orange};
+    color: ${p => p.theme.colors.grey};
     flex: 1;
     background: transparent;
     border: 0;
     &::placeholder {
-      color: ${p => p.theme.title === 'light' ? p.theme.colors.grey : p.theme.colors.orange};
+      color: ${p => p.theme.colors.grey};
     }
+
+    ${props =>
+    props.isFocused &&
+    css`
+          color: ${p => p.theme.colors.orange};
+        `}
   }
   svg {
     margin-right: 16px;

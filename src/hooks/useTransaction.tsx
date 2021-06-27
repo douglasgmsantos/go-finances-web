@@ -8,6 +8,8 @@ import { useToast } from "./toast";
 
 import formatValue from "../utils/formatValue";
 import formatDate from "../utils/formatDate";
+import formatDateInt from "../utils/formatDateInt";
+
 import { firstDay } from "../utils/firstDay";
 import { lastedDay } from "../utils/lastDay";
 
@@ -17,6 +19,8 @@ interface ITransaction {
   type?: 'income' | 'outcome';
   value?: string;
   value_format?: string;
+  dt_reference_format?: string;
+  dt_reference: number;
   category_id?: string;
   category?: {
     title?: string;
@@ -110,9 +114,9 @@ const TransactionProvider = ({ children }: ITransactionProvider) => {
       if (!response.data.success)
         return;
 
-      const transactions = response.data.result.transactions.map(transaction => {
+      const transactions = response.data.result.transactions.map((transaction : ITransaction) => {
+        transaction.dt_reference_format = formatDateInt(transaction.dt_reference);
         transaction.value_format = formatValue(Number(transaction.value))
-        transaction.created_at = formatDate(transaction.created_at)
         transaction.category.background_color_light = transaction.category.background_color_light || "#000"
         transaction.category.background_color_dark = transaction.category.background_color_dark || "#FFF"
         return transaction
@@ -141,9 +145,9 @@ const TransactionProvider = ({ children }: ITransactionProvider) => {
     }
   }
 
-  const createNewTransaction = async (transactionCreate: ICreateTransaction) => {
+  const createNewTransaction = async (formData: ICreateTransaction) => {
     await api.post("/transactions", {
-      ...transactionCreate,
+      ...formData,
       createdAt: new Date()
     })
       .then(response => {

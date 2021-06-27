@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 
 import { TransactionsContext } from '../../hooks/useTransaction';
-
-import formatValue from '../../utils/formatValue';
+import {FaRegArrowAltCircleUp, FaRegArrowAltCircleDown, FaDollarSign} from 'react-icons/fa';
 
 import { CardContainer, Card } from './styles';
 
@@ -14,21 +13,21 @@ const Summary: React.FC = () => {
         <Card>
           <header>
             <p>Entradas</p>
-            <img src="/income.svg" alt="Income" />
+            <FaRegArrowAltCircleUp className="income" size={32}/>
           </header>
           <h1>{summary.incomeFormatted}</h1>
         </Card>
         <Card>
           <header>
             <p>Saídas</p>
-            <img src="/outcome.svg" alt="Outcome" />
+            <FaRegArrowAltCircleDown className="outcome" size={32}/>
           </header>
           <h1>{summary.outcomeFormatted}</h1>
         </Card>
         <Card total>
           <header>
             <p>Total</p>
-            <img src="/total.svg" alt="Total" />
+            <FaDollarSign size={32} />
           </header>
           <h1>{summary.totalFormatted}</h1>
         </Card>

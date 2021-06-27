@@ -27,6 +27,17 @@ export const Card = styled.div<ICard>`
     p {
       font-size: 16px;
     }
+
+    svg {
+      &.income {
+        color: ${p => p.theme.colors.green}
+        
+      }
+
+      &.outcome {
+        color: ${p => p.theme.colors.red}
+      }
+    }
   }
 
   h1 {
