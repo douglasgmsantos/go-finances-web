@@ -44,8 +44,6 @@ export const IconContainer = styled.section`
 `;
 
 export const TableContainer = styled.div`
-  margin-top: 10px;
-
   .container-paginate{
     display: flex;
     justify-content:center;

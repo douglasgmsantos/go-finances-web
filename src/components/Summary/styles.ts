@@ -5,7 +5,7 @@ export const CardContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 0.5rem;
-  margin-top: -215px;
+  margin-top: -210px;
 `;
 
 interface ICard {

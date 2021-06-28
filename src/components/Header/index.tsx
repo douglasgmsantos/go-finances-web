@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ size = 'large' }: HeaderProps) => {
               <a>Configuração</a>
             </NavLink>
 
-            <div style={{ marginLeft: "35px", display: "flex", alignItems: "center" }}>
+            {/* <div style={{ marginLeft: "35px", display: "flex", alignItems: "center" }}>
               <Switch
                 onChange={() => toggleTheme()}
                 checked={title === 'dark'}
@@ -56,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({ size = 'large' }: HeaderProps) => {
                 offColor={colors.orange}
                 onColor={colors.dark}
               />
-            </div>
+            </div> */}
 
             <Logout onClick={() => handleSignOut()} style={{ borderBottom: `2px solid ${theme.title === 'light' ? theme.colors.orange : theme.colors.dark}` }}>
               <FiLogOut /> Sair
