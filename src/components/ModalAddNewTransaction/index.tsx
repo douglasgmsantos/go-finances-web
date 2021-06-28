@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { CSSProperties } from 'styled-components';
 
 import { BsCalendar, BsFileText } from 'react-icons/bs';
 import { FiDollarSign } from 'react-icons/fi';
@@ -99,19 +98,8 @@ const ModalAddNewTransaction: React.FC<IModalProps> = ({
           <Input name="value" type="number" placeholder="Valor" min="0.00" step="0.01" icon={FiDollarSign}/>
           <Input name="dt_reference" type="date" placeholder="Data de referênca" icon={BsCalendar} />
           <ReactCreatableSelect
-            styles={{
-              ...getCustomSelectOptionsModal(theme),
-              valueContainer: (provided: CSSProperties) => ({
-                ...provided,
-              }),
-              menuList: (provided: CSSProperties) => ({
-                ...provided,
-                padding: '5px',
-                display: 'grid',
-                gridTemplateColumns:
-                  '1fr',
-              }),
-            }}
+          
+            styles={getCustomSelectOptionsModal(theme)}
             defaultOptions
             name="category"
             keyField="title"
@@ -134,19 +122,8 @@ const ModalAddNewTransaction: React.FC<IModalProps> = ({
             }}
           />
           <Select
-            styles={{
-              ...getCustomSelectOptionsModal(theme),
-              valueContainer: (provided: CSSProperties) => ({
-                ...provided,
-              }),
-              menuList: (provided: CSSProperties) => ({
-                ...provided,
-                padding: '5px',
-                display: 'grid',
-                gridTemplateColumns:
-                  '1fr',
-              }),
-            }}
+          
+            styles={getCustomSelectOptionsModal(theme)}
             defaultOptions
             name="type"
             keyField="type"

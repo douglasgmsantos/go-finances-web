@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import { tint } from 'polished';
-import Tooltip from '../Tooltip';
 
 interface SelectContainerProps {
   hasError: boolean;
@@ -8,9 +7,8 @@ interface SelectContainerProps {
 
 export const Container = styled.div<SelectContainerProps>`
   font-weight: normal;
-  & + div {
-    margin-top: 8px;
-  }
+  margin-bottom: 0.5rem;
+  
   ${props =>
     props.hasError &&
     css`

@@ -3,10 +3,9 @@ import { lighten } from "polished";
 
 export const Container = styled.button`
   width: 100%;
-  margin: 15px 2px;
+  margin: 0 2px;
   padding: 15px;
   border-radius: 10px;
-  margin-top: 15px;
   height: 60px;
   border: none;
   border-radius: 5px;

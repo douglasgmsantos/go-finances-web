@@ -53,6 +53,7 @@ interface IContainerText {
 
 export const ContainerText = styled.div<IContainerText>`
   width: 100%;
+  margin: 5px 0;
   font-size: small;
   text-align: ${p => p.textAlign || "center"};
   a {

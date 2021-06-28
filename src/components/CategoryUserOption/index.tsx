@@ -22,7 +22,7 @@ const CategoryUserOption: React.FC<OptionProps<OptionTypeBase, boolean> | Single
         : (
           <Container {...innerProps}>
             <div>{data.title}</div>
-            <Icon size={20} />
+            <Icon size={20} color={data.background_color_light} />
           </Container>
         )
     );

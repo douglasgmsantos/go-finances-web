@@ -9,6 +9,8 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
+  margin-bottom: 0.5rem;
+  height: fit-content;
   background: ${p => p.theme.colors.white};
   border-radius: 10px;
   border: 2px solid ${p => p.theme.colors.purple_light};
@@ -17,9 +19,7 @@ export const Container = styled.div<ContainerProps>`
   width: 100%;
   display: flex;
   align-items: center;
-  & + div {
-    margin-top: 8px;
-  }
+  
   ${props =>
     props.isErrored &&
     css` border-color: ${p => p.theme.colors.red}; `}

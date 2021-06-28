@@ -7,7 +7,6 @@ import { api } from "../services/apiClient";
 import { useToast } from "./toast";
 
 import formatValue from "../utils/formatValue";
-import formatDate from "../utils/formatDate";
 import formatDateInt from "../utils/formatDateInt";
 
 import { firstDay } from "../utils/firstDay";
